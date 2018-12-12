@@ -7,7 +7,7 @@ Daypym is a project to preprocess and run DAYSIM solar irradiance simulations wi
 
 * Translating EnergyPlus IDF geometry to .rad file for DAYSIM simulation (utilizing eppy and geomeppy)
 
-* Generating sensor points over selected surfaces
+* Generating sensor points over selected surfaces (utilizing geomeppy)
 
 ## Running DAYSIM simulations
 
