@@ -24,11 +24,10 @@ Daypym is a project to preprocess and run DAYSIM solar irradiance simulations wi
 * Install eppy
 * Install geomeppy
 * Then:
-
-'''python
+```python
 import sys
-sys.path.append(r'PathOfFolderContainingDaypym.py')
+sys.path.append(r'Path/Of/Folder/Containing/Daypym.py')
 from daypym import *
-'''
+```
 
 # Tutorial
