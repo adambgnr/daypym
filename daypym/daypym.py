@@ -69,9 +69,23 @@ def grid_2d(bbox_2d, d):
     grid = np.meshgrid(xv, yv)
     return grid
 
+def grid_2d_pvmodule_depr1(n_row, n_col, bbox_2d):
+    "This makes a rectangular grid over the pv cells. Use the gridpoints_in_poly_2d on the list of arrays it returns, because this produces some extra points as well, that are needed to be clipped off -- # This was not correct, because we used d which is not spoint density here, but the number of points"
+    d = (n_col*n_row) + (n_row + 1) + (n_col + 1) - 1 # calc the point density to have 1 sp over each cell
+    test_grid = grid_2d(bbox_2d=bbox_2d, d=d) # make a 2D test grid on the x-y plane (daypym) This grid contains the edges as well. Not good yet. We will push this with half cell-size in eac direction.
+    lr = test_grid[0].max() - test_grid[0].min() # calc the length of the module in the row-direction
+    lc = test_grid[1].max() - test_grid[1].min() # calc the length of the module in the column-direction
+    dr = (lr/n_row) / 2
+    dc = (lc/n_col) / 2
+    test_grid_transp = [test_grid[0] + dr, test_grid[1] + dc] # Pushing the grid to the center of the cells. Now we have a row and column of points off the surface of the pv. These are needed to be removed with gridpoints_in_poly_2d func!
+    return test_grid_transp
+
 def grid_2d_pvmodule(n_row, n_col, bbox_2d):
     "This makes a rectangular grid over the pv cells. Use the gridpoints_in_poly_2d on the list of arrays it returns, because this produces some extra points as well, that are needed to be clipped off"
-    d = (n_col*n_row) + (n_row + 1) + (n_col + 1) - 1 # calc the point density to have 1 sp over each cell
+    a = abs((bbox_2d[0] - bbox_2d[2])[0])
+    b = abs((bbox_2d[0] - bbox_2d[2])[1])
+    area = a * b
+    d = ((n_col*n_row) + (n_row + 1) + (n_col + 1) - 1) / area# calc the point density to have 1 sp over each cell
     test_grid = grid_2d(bbox_2d=bbox_2d, d=d) # make a 2D test grid on the x-y plane (daypym) This grid contains the edges as well. Not good yet. We will push this with half cell-size in eac direction.
     lr = test_grid[0].max() - test_grid[0].min() # calc the length of the module in the row-direction
     lc = test_grid[1].max() - test_grid[1].min() # calc the length of the module in the column-direction
@@ -337,6 +351,7 @@ def ds_gen_dc(p_name, hea_file_name=None):
 
 def ds_ds_illum(p_name, hea_file_name=None):
     """Run ds_illum. Use project name for automated workflow or the hea file name (with extension) for manual workflow."""
+    #TODO: Check, what we need to add -dds -s. Also can we get an output of solar position from Daysim? Radiance%20WS2009_DaysimInnovations_CReinhart_Daysim_dds.pdf
     if hea_file_name == None:
         cstr = r'ds_illum {}.hea -dds'.format(p_name)
     else:
