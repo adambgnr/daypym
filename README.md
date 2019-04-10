@@ -1,6 +1,10 @@
 # Daypym
 Daypym is a project to preprocess and run DAYSIM solar irradiance simulations with Python. It uses EnergyPlus IDF files, as geometry input.
 
+# Depreciated!
+**You can find the latest version of Daypym here:**
+[https://gitlab.tue.nl/bp-tue/daypym](https://gitlab.tue.nl/bp-tue/daypym)
+
 # Features
 
 ## Geometry preprocessing
@@ -29,6 +33,3 @@ import sys
 sys.path.append(r'Path/Of/Folder/Containing/Daypym.py')
 from daypym import *
 ```
-
-# Tutorial
-Soon.
